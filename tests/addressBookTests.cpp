@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include "contact.hpp"
 
 class AddressBookTestFixture : public ::testing::Test {
 protected:
@@ -8,7 +9,7 @@ protected:
 };
 
 TEST_F(AddressBookTestFixture, CreateContact) {
-  Contact c = Contact("Jane", "Doe", "123145235");
+  Contact c = {"Jane", "Doe", "123145235"};
 
   EXPECT_EQ(c.firstName, "Jane");
   EXPECT_EQ(c.lastName, "Doe");
