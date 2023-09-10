@@ -23,3 +23,13 @@ TEST_F(AddressBookTestFixture, ContactPhoneIsOptional) {
   EXPECT_EQ(c.lastName, "Doe");
   EXPECT_EQ(c.phone, "");
 }
+
+TEST_F(AddressBookTestFixture, AddAndRetrieveContactToAddressBook) {
+  AddressBook b;
+  Contact c = {"Jane", "Doe", "123145235"};
+
+  // Contact is taken by copy so can be referenced later
+  b.addContact(c);
+
+  EXPECT_EQ(b.contactsByFirstName(), std::vector<Contact>{c});
+}
