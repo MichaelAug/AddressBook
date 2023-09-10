@@ -14,6 +14,7 @@ public:
   void addContact(Contact);
   std::vector<Contact> contactsByFirstName();
   std::vector<Contact> contactsByLastName();
+  std::vector<Contact> matchedContacts(const std::string&);
 
   void removeContact(const std::string&, const std::string&);
 private:

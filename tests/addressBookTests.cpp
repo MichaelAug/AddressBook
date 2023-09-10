@@ -89,6 +89,7 @@ TEST_F(AddressBookTestFixture, RetrievePartialOrFullNameMatch) {
   b.addContact({"Bob", "Danielson"});
 
   EXPECT_EQ(b.matchedContacts("dan").size(), 3);
-  // EXPECT_EQ(b.matchedContacts("dan"), (std::vector<Contact>{{"Dan", "eeeee"},
-  // {"Daniel", "ddddd"}, {"Bob", "Danielson"}}));
+  EXPECT_EQ(b.matchedContacts("dan"),
+            (std::vector<Contact>{
+                {"Bob", "Danielson"}, {"Dan", "eeeee"}, {"Daniel", "ddddd"}}));
 }

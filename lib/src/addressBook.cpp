@@ -2,7 +2,9 @@
 #include <algorithm>
 #include <memory>
 #include <vector>
+#include <cctype>
 
+namespace {
 static std::vector<Contact> buildVecFromMap(const contactMapping &map) {
   std::vector<Contact> contacts;
   for (const auto &pair : map) {
@@ -20,6 +22,14 @@ static void removeFromMap(contactMapping &map, const std::string &key) {
     map.erase(it);
   }
 }
+
+std::string toLower(const std::string &str) {
+  std::string result = str;
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
+  return result;
+}
+} // namespace
 
 void AddressBook::addContact(Contact contact) {
   auto contactPtr = std::make_shared<Contact>(contact);
@@ -54,4 +64,21 @@ void AddressBook::removeContact(const std::string &first_name,
 
   removeFromMap(by_first_last, first_name + last_name);
   removeFromMap(by_last_first, last_name + first_name);
+}
+
+std::vector<Contact> AddressBook::matchedContacts(const std::string &val) {
+  std::vector<Contact> contacts;
+  const auto val_lower = toLower(val);
+  for (const auto &c : by_first_last) {
+    if (auto contactPtr = c.second.lock()) {
+      const auto first_lower = toLower(contactPtr->firstName);
+      const auto last_lower = toLower(contactPtr->lastName);
+
+      if (first_lower.compare(0, val_lower.length(), val_lower) == 0 ||
+          last_lower.compare(0, val_lower.length(), val_lower) == 0) {
+        contacts.push_back(*contactPtr);
+      }
+    }
+  }
+  return contacts;
 }
