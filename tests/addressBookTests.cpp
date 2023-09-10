@@ -15,3 +15,11 @@ TEST_F(AddressBookTestFixture, CreateContact) {
   EXPECT_EQ(c.lastName, "Doe");
   EXPECT_EQ(c.phone, "123145235");
 }
+
+TEST_F(AddressBookTestFixture, ContactPhoneIsOptional) {
+  Contact c = {"Jane", "Doe"};
+
+  EXPECT_EQ(c.firstName, "Jane");
+  EXPECT_EQ(c.lastName, "Doe");
+  EXPECT_EQ(c.phone, "123145235");
+}
