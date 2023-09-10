@@ -10,7 +10,6 @@ typedef std::map<std::string, std::weak_ptr<Contact>> contactMapping;
 
 class AddressBook {
 public:
-    std::string test();
     void addContact(Contact);
     std::vector<Contact> contactsByFirstName();
 private:

@@ -1,11 +1,9 @@
-#include "gtest/gtest.h"
 #include "addressBook.hpp"
+#include "gtest/gtest.h"
 
 class AddressBookTestFixture : public ::testing::Test {
 protected:
-  void SetUp() override {
-    
-  }
+  void SetUp() override {}
 };
 
 TEST_F(AddressBookTestFixture, CreateContact) {
@@ -29,9 +27,7 @@ TEST_F(AddressBookTestFixture, AddAndRetrieveContactToAddressBook) {
   Contact c = {"Jane", "Doe", "123145235"};
 
   // Contact is taken by copy so c can be referenced later
-  // b.addContact(c);
+  b.addContact(c);
 
-  EXPECT_EQ(b.test(), "dhi");
-
-  // EXPECT_EQ(b.contactsByFirstName(), std::vector<Contact>{c});
+  EXPECT_EQ(b.contactsByFirstName(), std::vector<Contact>{c});
 }

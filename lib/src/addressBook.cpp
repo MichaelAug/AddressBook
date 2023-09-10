@@ -15,10 +15,5 @@ std::vector<Contact> AddressBook::contactsByFirstName() {
             contacts.push_back(*shared_contact);
         }
     }
-
     return contacts;
-}
-
-std::string AddressBook::test() {
-    return "hi";
 }
