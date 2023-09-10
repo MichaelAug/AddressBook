@@ -7,6 +7,8 @@
 namespace {
 static std::vector<Contact> buildVecFromMap(const contactMapping &map) {
   std::vector<Contact> contacts;
+  // Reserve memory for the vector based on the size of the map
+  contacts.reserve(map.size());
   for (const auto &pair : map) {
     contacts.push_back(*pair.second);
   }
