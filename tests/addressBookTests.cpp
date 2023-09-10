@@ -7,6 +7,10 @@ protected:
   }
 };
 
-TEST_F(AddressBookTestFixture, firstTest) {
-  EXPECT_EQ(1, 2);
+TEST_F(AddressBookTestFixture, CreateContact) {
+  Contact c = Contact("Jane", "Doe", "123145235");
+
+  EXPECT_EQ(c.firstName, "Jane");
+  EXPECT_EQ(c.lastName, "Doe");
+  EXPECT_EQ(c.phone, "123145235");
 }
