@@ -31,3 +31,29 @@ TEST_F(AddressBookTestFixture, AddAndRetrieveContactToAddressBook) {
 
   EXPECT_EQ(b.contactsByFirstName(), std::vector<Contact>{c});
 }
+
+TEST_F(AddressBookTestFixture, RetrieveContactsSortedByFirstName) {
+  AddressBook b;
+
+  std::vector<Contact> contacts = {{"aaaaaa", "Doe"}, {"bbbbbb", "Doe"}, {"cccccc", "Doe"}};
+
+  // Add contacts in random order
+  b.addContact(contacts[1]);
+  b.addContact(contacts[2]);
+  b.addContact(contacts[0]);
+
+  EXPECT_EQ(b.contactsByFirstName(), contacts);
+}
+
+TEST_F(AddressBookTestFixture, RetrieveContactsSortedByLastName) {
+  AddressBook b;
+
+  std::vector<Contact> contacts = {{"aaaaaa", "ddddd"}, {"cccccc", "eeeee"}, {"bbbbbb", "ff"}};
+
+  // Add contacts in random order
+  b.addContact(contacts[2]);
+  b.addContact(contacts[0]);
+  b.addContact(contacts[1]);
+
+  EXPECT_EQ(b.contactsByLastName(), contacts);
+}
