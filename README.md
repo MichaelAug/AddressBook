@@ -1,10 +1,11 @@
-To build:
+# Address Book Readme
+#### To build:
     mkdir build && cd build
     cmake -DCMAKE_CXX_COMPILER=clang++ ..
     make
 
-To run binary:
+#### To run binary:
     ./addressBook
 
-To run tests (if they were built):
+#### To run tests (if they were built):
     ctest
