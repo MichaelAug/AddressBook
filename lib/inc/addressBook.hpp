@@ -14,6 +14,8 @@ public:
   void addContact(Contact);
   std::vector<Contact> contactsByFirstName();
   std::vector<Contact> contactsByLastName();
+
+  void removeContact(const std::string&, const std::string&);
 private:
   contactPointers entries;      // Store entries directly, owns the pointers
   contactMapping by_first_last; // Map for sorting by first name + last name

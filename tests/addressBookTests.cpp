@@ -70,10 +70,10 @@ TEST_F(AddressBookTestFixture, AddAndRemoveContact) {
   EXPECT_EQ(b.contactsByFirstName().size(), 3);
   EXPECT_EQ(b.contactsByLastName().size(), 3);
 
-  b.RemoveContact(contacts[0]);
-  contacts.erase(contacts.begin());
+  b.removeContact(contacts[0].firstName, contacts[0].lastName);
 
   EXPECT_EQ(b.contactsByFirstName().size(), 2);
   EXPECT_EQ(b.contactsByLastName().size(), 2);
-  EXPECT_EQ(b.contactsByFirstName(), contacts);
+  EXPECT_EQ(b.contactsByFirstName(), (std::vector<Contact>{{"bbbbbb", "ff"}, {"cccccc", "eeeee"}}));
+  EXPECT_EQ(b.contactsByLastName(), (std::vector<Contact>{{"cccccc", "eeeee"}, {"bbbbbb", "ff"}}));
 }
