@@ -21,5 +21,5 @@ TEST_F(AddressBookTestFixture, ContactPhoneIsOptional) {
 
   EXPECT_EQ(c.firstName, "Jane");
   EXPECT_EQ(c.lastName, "Doe");
-  EXPECT_EQ(c.phone, "123145235");
+  EXPECT_EQ(c.phone, "");
 }

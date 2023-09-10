@@ -4,5 +4,7 @@
 struct Contact {
   std::string firstName;
   std::string lastName;
-  std::string phone;
+
+// Denote no phone number as empty string
+  std::string phone = "";
 };
