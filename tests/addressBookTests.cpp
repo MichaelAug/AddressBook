@@ -57,3 +57,23 @@ TEST_F(AddressBookTestFixture, RetrieveContactsSortedByLastName) {
 
   EXPECT_EQ(b.contactsByLastName(), contacts);
 }
+
+TEST_F(AddressBookTestFixture, AddAndRemoveContact) {
+  AddressBook b;
+
+  std::vector<Contact> contacts = {{"aaaaaa", "ddddd"}, {"cccccc", "eeeee"}, {"bbbbbb", "ff"}};
+
+  b.addContact(contacts[2]);
+  b.addContact(contacts[0]);
+  b.addContact(contacts[1]);
+
+  EXPECT_EQ(b.contactsByFirstName().size(), 3);
+  EXPECT_EQ(b.contactsByLastName().size(), 3);
+
+  b.RemoveContact(contacts[0]);
+  contacts.erase(contacts.begin());
+
+  EXPECT_EQ(b.contactsByFirstName().size(), 2);
+  EXPECT_EQ(b.contactsByLastName().size(), 2);
+  EXPECT_EQ(b.contactsByFirstName(), contacts);
+}
