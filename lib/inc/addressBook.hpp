@@ -5,8 +5,7 @@
 #include <unordered_set>
 #include <vector>
 
-typedef std::vector<std::shared_ptr<Contact>> contactPointers;
-typedef std::map<std::string, std::weak_ptr<Contact>> contactMapping;
+typedef std::map<std::string, std::shared_ptr<Contact>> contactMapping;
 
 class AddressBook {
 public:
@@ -18,7 +17,6 @@ public:
 
   void removeContact(const std::string&, const std::string&);
 private:
-  contactPointers entries;      // Store entries directly, owns the pointers
   contactMapping by_first_last; // Map for sorting by first name + last name
   contactMapping by_last_first; // Map for sorting by last name + first name
 };

@@ -4,6 +4,8 @@
 class AddressBookTestFixture : public ::testing::Test {
 protected:
   void SetUp() override {}
+
+  AddressBook addrBook;
 };
 
 TEST_F(AddressBookTestFixture, CreateContact) {
@@ -23,73 +25,85 @@ TEST_F(AddressBookTestFixture, ContactPhoneIsOptional) {
 }
 
 TEST_F(AddressBookTestFixture, AddAndRetrieveContactToAddressBook) {
-  AddressBook b;
   Contact c = {"Jane", "Doe", "123145235"};
 
   // Contact is taken by copy so c can be referenced later
-  b.addContact(c);
+  addrBook.addContact(c);
 
-  EXPECT_EQ(b.contactsByFirstName(), std::vector<Contact>{c});
+  EXPECT_EQ(addrBook.contactsByFirstName(), std::vector<Contact>{c});
 }
 
 TEST_F(AddressBookTestFixture, RetrieveContactsSortedByFirstName) {
-  AddressBook b;
-
   std::vector<Contact> contacts = {
       {"aaaaaa", "Doe"}, {"bbbbbb", "Doe"}, {"cccccc", "Doe"}};
 
   // Add contacts in random order
-  b.addContact(contacts[1]);
-  b.addContact(contacts[2]);
-  b.addContact(contacts[0]);
+  addrBook.addContact(contacts[1]);
+  addrBook.addContact(contacts[2]);
+  addrBook.addContact(contacts[0]);
 
-  EXPECT_EQ(b.contactsByFirstName(), contacts);
+  EXPECT_EQ(addrBook.contactsByFirstName(), contacts);
 }
 
 TEST_F(AddressBookTestFixture, RetrieveContactsSortedByLastName) {
-  AddressBook b;
-
   std::vector<Contact> contacts = {
       {"aaaaaa", "ddddd"}, {"cccccc", "eeeee"}, {"bbbbbb", "ff"}};
 
   // Add contacts in random order
-  b.addContact(contacts[2]);
-  b.addContact(contacts[0]);
-  b.addContact(contacts[1]);
+  addrBook.addContact(contacts[2]);
+  addrBook.addContact(contacts[0]);
+  addrBook.addContact(contacts[1]);
 
-  EXPECT_EQ(b.contactsByLastName(), contacts);
+  EXPECT_EQ(addrBook.contactsByLastName(), contacts);
 }
 
 TEST_F(AddressBookTestFixture, AddAndRemoveContact) {
-  AddressBook b;
+  addrBook.addContact({"bbbbbb", "ff"});
+  addrBook.addContact({"aaaaaa", "ddddd"});
+  addrBook.addContact({"cccccc", "eeeee"});
 
-  b.addContact({"bbbbbb", "ff"});
-  b.addContact({"aaaaaa", "ddddd"});
-  b.addContact({"cccccc", "eeeee"});
+  EXPECT_EQ(addrBook.contactsByFirstName().size(), 3);
+  EXPECT_EQ(addrBook.contactsByLastName().size(), 3);
 
-  EXPECT_EQ(b.contactsByFirstName().size(), 3);
-  EXPECT_EQ(b.contactsByLastName().size(), 3);
+  addrBook.removeContact("aaaaaa", "ddddd");
 
-  b.removeContact("aaaaaa", "ddddd");
-
-  EXPECT_EQ(b.contactsByFirstName().size(), 2);
-  EXPECT_EQ(b.contactsByLastName().size(), 2);
-  EXPECT_EQ(b.contactsByFirstName(),
+  EXPECT_EQ(addrBook.contactsByFirstName().size(), 2);
+  EXPECT_EQ(addrBook.contactsByLastName().size(), 2);
+  EXPECT_EQ(addrBook.contactsByFirstName(),
             (std::vector<Contact>{{"bbbbbb", "ff"}, {"cccccc", "eeeee"}}));
-  EXPECT_EQ(b.contactsByLastName(),
+  EXPECT_EQ(addrBook.contactsByLastName(),
             (std::vector<Contact>{{"cccccc", "eeeee"}, {"bbbbbb", "ff"}}));
 }
 
 TEST_F(AddressBookTestFixture, RetrievePartialOrFullNameMatch) {
-  AddressBook b;
+  addrBook.addContact({"Bob", "ffff"});
+  addrBook.addContact({"Daniel", "ddddd"});
+  addrBook.addContact({"Dan", "eeeee"});
+  addrBook.addContact({"Bob", "Danielson"});
 
-  b.addContact({"Bob", "ffff"});
-  b.addContact({"Daniel", "ddddd"});
-  b.addContact({"Dan", "eeeee"});
-  b.addContact({"Bob", "Danielson"});
-
-  EXPECT_EQ(b.matchedContacts("dan").size(), 3);
-  EXPECT_EQ(b.matchedContacts("dan"),
+  EXPECT_EQ(addrBook.matchedContacts("dan").size(), 3);
+  EXPECT_EQ(addrBook.matchedContacts("dan"),
             (std::vector<Contact>{
                 {"Bob", "Danielson"}, {"Dan", "eeeee"}, {"Daniel", "ddddd"}}));
+}
+
+TEST_F(AddressBookTestFixture, PartialOrFullNameMatchLongVal) {
+  addrBook.addContact({"Bob", "ffff"});
+  addrBook.addContact({"Daniel", "ddddd"});
+  addrBook.addContact({"Dan", "eeeee"});
+  addrBook.addContact({"Bob", "Danielson"});
+
+  EXPECT_EQ(addrBook.matchedContacts("danaaaaskugh*&^&$FTU!").size(), 0);
+}
+
+TEST_F(AddressBookTestFixture, OverwriteContact) {
+  // Contact with no number
+  addrBook.addContact({"Bob", "ffff"});
+
+  EXPECT_EQ(addrBook.contactsByFirstName(), (std::vector<Contact>{{"Bob", "ffff"}}));
+
+  // Add number to Bob
+  addrBook.addContact({"Bob", "ffff", "12345235"});
+
+  EXPECT_EQ(addrBook.contactsByFirstName(), (std::vector<Contact>{{"Bob", "ffff", "12345235"}}));
 }
